@@ -2,3 +2,4 @@
 /.vercel
 /.next
 pnpm-lock.yaml
+/drizzle
