@@ -9,28 +9,31 @@ import {
   CardTitle,
 } from '@/components/ui/card.tsx';
 import { cn } from '@/lib/utils.ts';
+import { hcWithType } from '@/server/api/hc.ts';
 import { SiGoogle } from '@icons-pack/react-simple-icons';
 import { Facebook, Github } from 'lucide-react';
+
+type CardProps = React.ComponentProps<typeof Card>;
+
+const client = hcWithType('');
 
 const signInOptions = [
   {
     name: 'Facebook',
-    link: 'facebook',
+    onClick: () => console.log('Clicked Facebook!'),
     icon: <Facebook className='mr-2 h-4 w-4' />,
   },
   {
     name: 'Google',
-    link: 'google',
+    onClick: () => console.log('Clicked Google!'),
     icon: <SiGoogle className='mr-2 h-4 w-4' />,
   },
   {
     name: 'GitHub',
-    link: 'github',
+    onClick: () => client.api.login.github.$get(),
     icon: <Github className='mr-2 h-4 w-4' />,
   },
 ];
-
-type CardProps = React.ComponentProps<typeof Card>;
 
 export function SignInCard({ className, ...props }: CardProps) {
   return (
@@ -45,12 +48,13 @@ export function SignInCard({ className, ...props }: CardProps) {
         {signInOptions.map((option, index) => (
           <div key={index} className='grid gap-6'>
             <Button
+              onClick={option.onClick}
               className='w-full'
-              onClick={() => console.log(`Clicked sign in!`)}
               title={option.name}
             >
               {option.icon} {option.name}
             </Button>
+            <a href='/api/login/github'>Click here</a>
           </div>
         ))}
       </CardContent>
