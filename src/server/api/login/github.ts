@@ -5,7 +5,6 @@ import { createAccount, getExistingAccount } from '@/server/utils/db.ts';
 import { ArcticFetchError, generateState, OAuth2RequestError } from 'arctic';
 import { Hono } from 'hono';
 import { getCookie, setCookie } from 'hono/cookie';
-import { HTTPException } from 'hono/http-exception';
 import { generateIdFromEntropySize } from 'lucia';
 
 const githubApp = new Hono()
@@ -29,7 +28,7 @@ const githubApp = new Hono()
     const storedState = getCookie(c, 'github_oauth_state');
 
     if (!code || !state || !storedState || state !== storedState) {
-      throw new HTTPException(400, { message: 'Invalid request!' });
+      return c.json({ error: 'Invalid request!' }, 400);
     }
 
     try {
@@ -66,15 +65,15 @@ const githubApp = new Hono()
     } catch (e) {
       if (e instanceof OAuth2RequestError) {
         // Invalid authorization code, credentials, or redirect URI
-        throw new HTTPException(400, { message: e.message });
+        return c.json({ error: e.cause }, 400);
       }
       if (e instanceof ArcticFetchError) {
         // Failed to call `fetch()`
-        throw new HTTPException(400, { message: e.message });
+        return c.json({ error: e.cause }, 400);
       }
       // Parse error
       console.error(e);
-      throw new HTTPException(500, { message: 'Internal server error!' });
+      return c.json({ error: 'Internal server error!' }, 500);
     }
   });
 
