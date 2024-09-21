@@ -10,7 +10,6 @@
       "@/*": ["./src/*"]
     },
     "jsx": "preserve",
-    "jsxImportSource": "react",
     "allowJs": true,
     "noEmit": true,
     "incremental": true,

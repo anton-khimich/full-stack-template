@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/button.tsx';
+import { buttonVariants } from '@/components/ui/button.tsx';
 import {
   Card,
   CardContent,
@@ -9,28 +9,28 @@ import {
   CardTitle,
 } from '@/components/ui/card.tsx';
 import { cn } from '@/lib/utils.ts';
-import { hcWithType } from '@/server/api/hc.ts';
 import { SiGoogle } from '@icons-pack/react-simple-icons';
 import { Facebook, Github } from 'lucide-react';
+import LinkModule from 'next/link.js';
 
 type CardProps = React.ComponentProps<typeof Card>;
 
-const client = hcWithType('');
+const Link = LinkModule.default;
 
 const signInOptions = [
   {
     name: 'Facebook',
-    onClick: () => console.log('Clicked Facebook!'),
+    path: '/api/login/facebook',
     icon: <Facebook className='mr-2 h-4 w-4' />,
   },
   {
     name: 'Google',
-    onClick: () => console.log('Clicked Google!'),
+    path: '/api/login/google',
     icon: <SiGoogle className='mr-2 h-4 w-4' />,
   },
   {
     name: 'GitHub',
-    onClick: () => client.api.login.github.$get(),
+    path: '/api/login/github',
     icon: <Github className='mr-2 h-4 w-4' />,
   },
 ];
@@ -47,14 +47,12 @@ export function SignInCard({ className, ...props }: CardProps) {
       <CardContent className='grid gap-4'>
         {signInOptions.map((option, index) => (
           <div key={index} className='grid gap-6'>
-            <Button
-              onClick={option.onClick}
-              className='w-full'
-              title={option.name}
+            <Link
+              href={option.path}
+              className={`${buttonVariants({ variant: 'default' })} w-full`}
             >
               {option.icon} {option.name}
-            </Button>
-            <a href='/api/login/github'>Click here</a>
+            </Link>
           </div>
         ))}
       </CardContent>
