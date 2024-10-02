@@ -7,7 +7,6 @@ on:
 jobs:
   pre_deploy:
     uses: ./.github/workflows/verify_build.yml
-  # deploy:
-  #   needs: pre_deploy
-  #   uses: ./.github/workflows/vercel_deploy.yml
-  #   secrets: inherit
+  deploy:
+    needs: pre_deploy
+    uses: ./.github/workflows/cloudflare_pages_deploy.yml
