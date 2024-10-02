@@ -10,5 +10,5 @@ jobs:
     secrets: inherit
   deploy:
     needs: pre_deploy
-    uses: ./.github/workflows/cloudflare_pages_deploy.yml
+    uses: ./.github/workflows/vercel_deploy.yml
     secrets: inherit
