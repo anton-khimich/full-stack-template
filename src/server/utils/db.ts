@@ -1,13 +1,12 @@
 import { and, eq } from 'drizzle-orm';
 
-import { getDbClient } from '../db/db.ts';
+import { db } from '../db/db.ts';
 import { accountTable, userTable } from '../db/schema/auth.ts';
 
 export async function getExistingAccount(
   provider: string,
   providerUserId: string,
 ) {
-  const db = getDbClient();
   return db
     .select()
     .from(accountTable)
@@ -25,7 +24,6 @@ export async function createAccount(
   provider: string,
   providerUserId: string,
 ) {
-  const db = getDbClient();
   await db.batch([
     db.insert(userTable).values({ id: userId }),
     db.insert(accountTable).values({

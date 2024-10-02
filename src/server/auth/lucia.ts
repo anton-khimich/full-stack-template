@@ -1,13 +1,9 @@
-import { createDbClient } from '@/server/db/db.ts';
+import { db } from '@/server/db/db.ts';
 import { sessionTable, userTable } from '@/server/db/schema/auth.ts';
 import { DrizzleSQLiteAdapter } from '@lucia-auth/adapter-drizzle';
 import { Lucia } from 'lucia';
 
-const adapter = new DrizzleSQLiteAdapter(
-  createDbClient(),
-  sessionTable,
-  userTable,
-);
+const adapter = new DrizzleSQLiteAdapter(db, sessionTable, userTable);
 
 export const lucia = new Lucia(adapter, {
   sessionCookie: {
