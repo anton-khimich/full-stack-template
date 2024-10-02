@@ -1,6 +1,6 @@
 'use client';
 
-import { buttonVariants } from '@/components/ui/button.tsx';
+import { Button, buttonVariants } from '@/components/ui/button.tsx';
 import { hcWithType } from '@/server/api/hc.ts';
 import LinkModule from 'next/link.js';
 import { useEffect, useState } from 'react';
@@ -34,12 +34,9 @@ export default function Page() {
       {userId ?
         <p>
           Logged in!{' '}
-          <Link
-            href={'/api/logout'}
-            className={`${buttonVariants({ variant: 'default' })} w-auto`}
-          >
-            Logout
-          </Link>
+          <Button className='w-auto' title='Logout' asChild>
+            <a href='/api/logout'>Logout</a>
+          </Button>
         </p>
       : <p>
           Logged out...{' '}
