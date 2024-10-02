@@ -1,7 +1,9 @@
 import { and, eq } from 'drizzle-orm';
 
-import { db } from '../db/db.ts';
+import { getDbClient } from '../db/db.ts';
 import { accountTable, userTable } from '../db/schema/auth.ts';
+
+const db = getDbClient();
 
 export async function getExistingAccount(
   provider: string,

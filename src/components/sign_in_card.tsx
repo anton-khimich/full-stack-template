@@ -1,6 +1,6 @@
 'use client';
 
-import { buttonVariants } from '@/components/ui/button.tsx';
+import { Button } from '@/components/ui/button.tsx';
 import {
   Card,
   CardContent,
@@ -11,11 +11,8 @@ import {
 import { cn } from '@/lib/utils.ts';
 import { SiGoogle } from '@icons-pack/react-simple-icons';
 import { Facebook, Github } from 'lucide-react';
-import LinkModule from 'next/link.js';
 
 type CardProps = React.ComponentProps<typeof Card>;
-
-const Link = LinkModule.default;
 
 const signInOptions = [
   {
@@ -47,12 +44,11 @@ export function SignInCard({ className, ...props }: CardProps) {
       <CardContent className='grid gap-4'>
         {signInOptions.map((option, index) => (
           <div key={index} className='grid gap-6'>
-            <Link
-              href={option.path}
-              className={`${buttonVariants({ variant: 'default' })} w-full`}
-            >
-              {option.icon} {option.name}
-            </Link>
+            <Button className='w-full' title={option.name} asChild>
+              <a href={option.path}>
+                {option.icon} {option.name}
+              </a>
+            </Button>
           </div>
         ))}
       </CardContent>

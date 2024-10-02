@@ -1,9 +1,20 @@
 import { createClient } from '@libsql/client/web';
-import { drizzle } from 'drizzle-orm/libsql';
+import { drizzle, LibSQLDatabase } from 'drizzle-orm/libsql';
 
-const dbClient = createClient({
-  url: process.env.TURSO_DATABASE_URL,
-  authToken: process.env.TURSO_AUTH_TOKEN,
-});
+let dbClient: LibSQLDatabase | undefined;
 
-export const db = drizzle(dbClient);
+export function createDbClient(): LibSQLDatabase {
+  return drizzle(
+    createClient({
+      url: process.env.TURSO_DATABASE_URL,
+      authToken: process.env.TURSO_AUTH_TOKEN,
+    }),
+  );
+}
+
+export function getDbClient(): LibSQLDatabase {
+  if (!dbClient) {
+    dbClient = createDbClient();
+  }
+  return dbClient;
+}
